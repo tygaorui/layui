@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+    </title>
+    <link rel="stylesheet" href="dist/css/layui.css" />
+    <style type="text/css">
+        .layui-tree-indent, .layui-tree-spread, .layui-tree-checkbox, .layui-tree-text {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-left: 5px;
+        }
+
+        .layui-tree-spread {
+        }
+
+        .layui-form-checked2[lay-skin=primary] i {
+            border-color: #5FB878;
+        }
+
+        .layui-form-checked2 i:before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #5FB878;
+        }
+    </style>
+    <script src="dist/layui.js"></script>
+</head>
+<body>
+    <div style="width:600px;margin:0 auto;">
+        <div class="layui-unselect layui-form-checkbox layui-form-checked2" lay-skin="primary"><i class="layui-icon"></i></div>
+        <button type="button" id="btn">获取</button>
+        <span class="layui-icon">&#xe623;</span>
+        <span class="layui-icon">&#xe625;</span>
+        <span class="layui-icon">&#xe605;</span>
+        <span class="layui-icon">&#xe618;</span>
+
+
+
+        <table id="table"></table>
+
+        <div id="testhtml"></div>
+    </div>
+    <script type="text/html" id="tableIcon">
+    </script>
+    <script type="text/html" id="testtpl">
+    </script>
+    <script>
+
+        layui.config({
+            base: '/dist/lay/extend/'
+        });
+
+        layui.use(['treetable','laytpl'], function () {
+            var treetb = layui.treetable;
+            
+            var $ = layui.$;
+
+            treetb.render({
+                id: 'tb1',
+                elem: '#table'
+                , height: 400
+                , url: 'datatest.json'
+                , expand: 2
+                , cols: [[
+                    { colspan: 2 }
+                    , { title: 'info', colspan: 7 }
+                ], [
+                    { type: 'numbers', fixed: 'left' }
+                    , { type: 'checkbox', field: 'username', tree_id: 'id', tree_parentid: 'pid', title: 'ID', width: 200, fixed: 'left' }
+                    //, { field: 'username', title: '用户名', width: 80 }
+                    , { field: 'sex', title: '性别', width: 80, edit: true }
+                    , { field: 'city', title: '城市', width: 80, edit: true }
+                    , { field: 'sign', title: '签名', width: 177 }
+                    , { field: 'experience', title: '积分', width: 80 }
+                    , { field: 'score', title: '评分', width: 80 }
+                    , { field: 'classify', title: '职业', width: 80 }
+                    , { field: 'wealth', title: '财富', width: 135 }
+                ]]
+            });
+
+            $('#btn').on('click', function () {
+                var rows = treetb.checkStatus('tb1');
+                console.log(rows.data);
+            });
+
+            var laytpl = layui.laytpl;
+
+            var html = laytpl('<span class=“layui-icon layui-tree-spread”>{{d.lev?"1":"2"}}</span>').render({lev:true});
+
+            $('#testhtml').html(html);
+
+        });
+
+
+
+    </script>
+</body>
+</html>
